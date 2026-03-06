@@ -1,0 +1,5 @@
+{
+  "name": "COMPASS",
+  "description": "A gamified productivity/travel tracking app where users set a focus timer and watch an airplane fly to a destination.",
+  "requestFramePermissions": ["geolocation"]
+}
