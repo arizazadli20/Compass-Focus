@@ -720,17 +720,26 @@ async function startServer() {
 
   // API Routes
   app.post('/api/register', (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, firstName, lastName, dob } = req.body;
     if (!username || !password) {
       return res.status(400).json({ error: 'Username and password required' });
     }
     
     try {
+      // Format DOB if provided (YYYY-MM-DD -> DD MMM YYYY)
+      let formattedDob = '01 JAN 2024';
+      if (dob) {
+        const date = new Date(dob);
+        if (!isNaN(date.getTime())) {
+          formattedDob = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+        }
+      }
+
       const defaultPassport = {
-        surname: 'Traveler',
-        givenNames: username,
+        surname: lastName || 'Traveler',
+        givenNames: firstName || username,
         nationality: 'Earth',
-        dob: '01 JAN 2024',
+        dob: formattedDob,
         sex: 'U',
         pob: 'Internet',
         photo: ''
